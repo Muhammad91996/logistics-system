@@ -38,6 +38,13 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+            
+            <p class="mt-4 text-center text-sm text-gray-600">
+                Don't have an account?
+                <a href="{{ route('register') }}" class="text-blue-600 hover:underline font-medium">
+                    Register here
+                </a>
+            </p>
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

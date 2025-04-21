@@ -10,9 +10,15 @@ class ShipmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $shipments = Shipment::latest()->paginate(10);
+        $query = Shipment::query();
+    
+        if ($request->has('status') && $request->status != '') {
+            $query->where('status', $request->status);
+        }
+    
+        $shipments = $query->latest()->paginate(10);
         return view('shipments.index', compact('shipments'));
     }
 

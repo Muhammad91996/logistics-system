@@ -13,8 +13,21 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        Dashboard
                     </x-nav-link>
+                    
+                    <x-nav-link :href="route('shipments.index')" :active="request()->routeIs('shipments.*')">
+                        Shipments
+                    </x-nav-link>
+                    
+                    <x-nav-link :href="route('shipments.create')" :active="request()->routeIs('shipments.create')">
+                        New Shipment
+                    </x-nav-link>
+                    
+                    {{-- Optional: Add this when driver feature is ready --}}
+                    {{-- <x-nav-link :href="route('drivers.index')" :active="request()->routeIs('drivers.*')">
+                        Drivers
+                    </x-nav-link> --}}
                 </div>
             </div>
 

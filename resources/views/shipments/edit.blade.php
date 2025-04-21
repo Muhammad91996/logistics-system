@@ -19,6 +19,7 @@
             <option value="in-transit" {{ $shipment->status === 'in-transit' ? 'selected' : '' }}>In Transit</option>
             <option value="delivered" {{ $shipment->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
         </select>
+        
 
         <button type="submit" class="bg-blue-600 text-white px-4 py-2">Update</button>
     </form>

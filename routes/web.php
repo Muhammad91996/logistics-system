@@ -9,13 +9,21 @@ use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\RoleController as AdminRoleController;
 use App\Http\Controllers\Admin\PermissionMatrixController;
 
+// ========================
+// Public Access
+// ========================
+
 // Redirect root to login
 Route::get('/', fn() => redirect('/login'));
 
-// Dashboard view (only for verified users)
+// Dashboard for verified users
 Route::get('/dashboard', fn() => view('dashboard'))
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
+
+// Public Shipment Tracking (outside admin area)
+Route::get('/track', [PublicTrackingController::class, 'showForm'])->name('tracking.form');
+Route::post('/track', [PublicTrackingController::class, 'track'])->name('tracking.search');
 
 
 // ========================
@@ -23,7 +31,7 @@ Route::get('/dashboard', fn() => view('dashboard'))
 // ========================
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Profile Settings
+    // Admin Profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -31,21 +39,16 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     // Courier Management
     Route::resource('couriers', CourierController::class);
 
-    // Shipment Tracking for Admin
-    Route::get('/track', [PublicTrackingController::class, 'showForm'])->name('tracking.form');
-    Route::post('/track', [PublicTrackingController::class, 'track'])->name('tracking.search');
-
-    // Roles & Permissions
+    // Role & Permission Management
     Route::get('/roles', [AdminRoleController::class, 'index'])->name('roles.index');
-    Route::post('/roles/{role}/permissions', [AdminRoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
     Route::post('/roles', [AdminRoleController::class, 'store'])->name('roles.store');
+    Route::post('/roles/{role}/permissions', [AdminRoleController::class, 'assignPermissions'])->name('roles.assignPermissions');
 
-
-    // Users & Role Assignment
+    // User Management
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::post('/users/{user}/assign-role', [AdminUserController::class, 'assignRole'])->name('users.assignRole');
 
-    // Permission Matrix UI
+    // Permissions Matrix
     Route::get('/permissions/matrix', [PermissionMatrixController::class, 'index'])->name('permissions.matrix');
     Route::post('/permissions/matrix/update', [PermissionMatrixController::class, 'update'])->name('permissions.matrix.update');
 });
@@ -55,10 +58,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
 // Authenticated Users (All Roles)
 // ========================
 Route::middleware(['auth'])->group(function () {
-    // Shipments CRUD
+    // Shipment CRUD
     Route::resource('shipments', ShipmentController::class);
 
-    // Personal Profile Settings (non-admin)
+    // Personal Profile Settings
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

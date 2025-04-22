@@ -19,14 +19,16 @@
             <option value="in-transit" {{ $shipment->status === 'in-transit' ? 'selected' : '' }}>In Transit</option>
             <option value="delivered" {{ $shipment->status === 'delivered' ? 'selected' : '' }}>Delivered</option>
         </select>
-        <select name="driver_id" class="w-full border p-2 mb-3">
-            <option value="">-- Select Driver --</option>
-            @foreach(\App\Models\Courier::all() as $driver)
-                <option value="{{ $driver->id }}" {{ $shipment->driver_id == $driver->id ? 'selected' : '' }}>
-                    {{ $driver->name }}
+
+        <select name="courier_id" class="w-full border p-2 mb-3">
+            <option value="">-- Select Courier --</option>
+            @foreach($couriers as $courier)
+                <option value="{{ $courier->id }}" {{ $shipment->courier_id == $courier->id ? 'selected' : '' }}>
+                    {{ $courier->name }}
                 </option>
             @endforeach
         </select>
+
         <button type="submit" class="bg-blue-600 text-white px-4 py-2">Update</button>
     </form>
 </div>

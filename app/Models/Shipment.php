@@ -12,8 +12,8 @@ class Shipment extends Model
         'receiver_name',
         'origin',
         'destination',
-        'status',
         'courier_id',
+        'status' // ✅ this is required if you're updating it
     ];
     public function courier()
     {

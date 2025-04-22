@@ -44,46 +44,42 @@ class ShipmentController extends Controller
             'receiver_name' => 'required',
             'origin' => 'required',
             'destination' => 'required',
-            'status' => 'required|in:pending,in-transit,delivered',
-            'Courier_id' => 'nullable|exists:Couriers,id',
+            'courier_id' => 'required|exists:couriers,id',
         ]);
-
+    
         Shipment::create($validated);
-
-        return redirect()->route('shipments.index')->with('success', 'Shipment created!');
+    
+        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Shipment $shipment)
     {
-        $shipment = Shipment::findOrFail($id);
-        $Couriers = Courier::all();
-        return view('shipments.edit', compact('shipment', 'Couriers'));
+        $couriers = Courier::all();
+        return view('shipments.edit', compact('shipment', 'couriers'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
-        $shipment = Shipment::findOrFail($id);
+    public function update(Request $request, Shipment $shipment)
+{
+    $request->validate([
+        'tracking_number' => 'required|string|max:255',
+        'sender_name' => 'required|string|max:255',
+        'receiver_name' => 'required|string|max:255',
+        'origin' => 'required|string|max:255',
+        'destination' => 'required|string|max:255',
+        'status' => 'required|in:pending,in-transit,delivered',
+        'courier_id' => 'nullable|exists:couriers,id',
+    ]);
 
-        $validated = $request->validate([
-            'tracking_number' => 'required|unique:shipments,tracking_number,' . $shipment->id,
-            'sender_name' => 'required',
-            'receiver_name' => 'required',
-            'origin' => 'required',
-            'destination' => 'required',
-            'status' => 'required|in:pending,in-transit,delivered',
-            'Courier_id' => 'nullable|exists:Couriers,id',
-        ]);
+    $shipment->update($request->all());
 
-        $shipment->update($validated);
-
-        return redirect()->route('shipments.index')->with('success', 'Shipment updated!');
-    }
+    return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
+}
 
     /**
      * Remove the specified resource from storage.

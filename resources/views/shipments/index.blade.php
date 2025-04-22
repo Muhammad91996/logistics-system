@@ -40,6 +40,7 @@
                 <th class="p-2 border">Destination</th>
                 <th class="p-2 border">Status</th>
                 <th class="p-2 border">Actions</th>
+                <th class="p-2 border">Courier</th>
             </tr>
         </thead>
         <tbody>
@@ -70,6 +71,9 @@
                             @method('DELETE')
                             <button type="submit" class="text-red-600 hover:underline">Delete</button>
                         </form>
+                    </td>
+                    <td class="p-2 border">
+                        {{ $shipment->courier ? $shipment->courier->name : '—' }}
                     </td>
                 </tr>
             @empty

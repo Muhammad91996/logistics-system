@@ -13,6 +13,11 @@ class Shipment extends Model
         'origin',
         'destination',
         'status',
-        'assigned_driver_id',
+        'courier_id',
     ];
+    public function courier()
+    {
+        return $this->belongsTo(Courier::class);
+    }
 }
+

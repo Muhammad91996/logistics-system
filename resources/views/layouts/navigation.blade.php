@@ -23,6 +23,9 @@
                     <x-nav-link :href="route('shipments.create')" :active="request()->routeIs('shipments.create')">
                         New Shipment
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.couriers.index')" :active="request()->routeIs('admin.couriers.*')">
+                        Couriers
+                    </x-nav-link>
                     
                     {{-- Optional: Add this when driver feature is ready --}}
                     {{-- <x-nav-link :href="route('drivers.index')" :active="request()->routeIs('drivers.*')">

@@ -26,6 +26,20 @@
                     <x-nav-link :href="route('admin.couriers.index')" :active="request()->routeIs('admin.couriers.*')">
                         Couriers
                     </x-nav-link>
+                    @role('admin')
+                        <x-nav-link :href="route('admin.roles.index')" :active="request()->routeIs('admin.roles.*')">
+                            {{ __('Roles') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users.*')">
+                            {{ __('Users') }}
+                        </x-nav-link>
+
+                        <x-nav-link :href="route('admin.permissions.matrix')" :active="request()->routeIs('admin.permissions.matrix')">
+                            {{ __('Permissions') }}
+                        </x-nav-link>
+                    @endrole
+                                        
                     
                     {{-- Optional: Add this when driver feature is ready --}}
                     {{-- <x-nav-link :href="route('drivers.index')" :active="request()->routeIs('drivers.*')">
